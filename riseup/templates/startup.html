@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Bootstrap Theme Company Page</title>
+    <title>Startup {{startup_object.name}}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -252,8 +252,8 @@
         </div>
     </div>
 
-    
-    <!-- Container (Services Section) -->
+
+    <!-- Container (Statistics Section) -->
     <div id="services" class="container-fluid bg-grey text-center">
         <h2>STATISTICS</h2>
         <h4>What we are</h4>
@@ -296,7 +296,8 @@
     </div>
 
 
-    
+
+    <!--FUNDING AND HIRING SECTION-->
     <div class="container-fluid ">
         <div class="row">
             <div class="col-sm-4">
@@ -304,19 +305,87 @@
             </div>
             <div class="col-sm-8">
                 <h2>FOR YOU</h2><br>
-                <h4><strong>MISSION:</strong> Our mission lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-                    <h4><strong>We are Hiring!:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                    exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.</p>
+                <h4><strong>MISSION:</strong> {{startup_object.company_mission}}</h4>
+                <h4><strong>FUNDING TO BE RAISED : {{startup_object.fund_to_be_raised}} Crs </strong>
+                    <button type="button" class="btn btn-success m-2 mb-2 " data-toggle="modal"
+                        data-target="#investor">
+                        Be a Investor
+                    </button>
+                </h4>
+                <h4><strong>Present your Innovative ideas and be a part of our comapany</strong> </p>
+                    <h4><strong>Job Vacancies : {{startup_object.job_vacancy}}</strong>
+                        <button type="button" class="btn btn-success m-2 mb-2 " data-toggle="modal"
+                            data-target="#student">
+                            Tell what you have
+                        </button> </p>
+
             </div>
         </div>
     </div>
 
+    <!--Be a Investor Modal-->
+    <div class="modal fade" id="investor" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalTitle">Investor Form</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/login/" method="post">{% csrf_token %}
+                        <input type="hidden" name="user_type" value="3">
+                        <input type="hidden" name="request_type" value="3">
+                        <div class="form-group">
+                            <label for="pass">Tell your views</label>
+                            <textarea name="description" id="description" cols="68" rows="5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="pass">Enter a link for reference</label>
+                            <input type="text" class="form-control" id="specific_link" name="specific_link"
+                                placeholder="Enter a link ">
+                        </div>
+                        <input type="hidden" name="status" id="status" value="0">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!--Tell what you have Modal-->
+    <div class="modal fade" id="student" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalTitle">Login Here</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/login/" method="post">{% csrf_token %}
+                        <input type="hidden" name="user_type" value="1">
+                        <input type="hidden" name="request_type" value="1">
+                        <div class="form-group">
+                            <label for="pass">Tell about yourself</label>
+                            <textarea name="description" id="description" cols="68" rows="5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="pass">Enter a link to get your ides or resume</label>
+                            <input type="text" class="form-control" id="specific_link" name="specific_link"
+                                placeholder="Enter a link ">
+                        </div>
+                        <input type="hidden" name="status" id="status" value="0">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Container (Contact Section) -->
