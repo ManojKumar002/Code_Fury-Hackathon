@@ -29,6 +29,20 @@
         crossorigin="anonymous"></script>
 
 
+        <style>
+            .dropdown-item {
+                display: block;
+                width: 100%;
+                font-weight: 400;
+                color: black;
+                text-align: inherit;
+                text-decoration: solid;
+                white-space: nowrap;
+                background-color: white;
+                border: 2px solid;}
+                
+                </style>
+
     <title>{% block title %} {% endblock %}</title>
     {% block css1 %} {% endblock %}
 </head>
@@ -64,17 +78,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/tracker">Tracker</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/blog">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
             </ul>
 
             <form action="/search/" class="form-inline my-2 my-lg-0" method="post">{% csrf_token %}
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
-                    name="search">
+                <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                    name="search"> -->
                 <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="">Search</button> -->
             </form>
 
@@ -88,17 +96,17 @@
             <form action="/logout/" method="post">
                 {% csrf_token %}
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle mb-1" type="button" id="dropdownMenuButton1"
+                    <!-- <button class="btn btn-secondary dropdown-toggle mb-1" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         Signed In as {{request.user}}
-                    </button>
-                    <ul class="dropdown-menu" style="background-color: rgb(218, 218, 218);"
-                        aria-labelledby="dropdownMenuButton1">
+                    </button> -->
+                    <!-- <ul class="dropdown-menu" style="background-color: rgb(218, 218, 218);" -->
+                        <!-- aria-labelledby="dropdownMenuButton1"> -->
                         {% csrf_token %}
-                        <li>
+                        <!-- <li> -->
                             <button class="dropdown-item" style="cursor: pointer;" type="submit">Logout</button>
-                        </li>
-                    </ul>
+                        <!-- </li> -->
+                    <!-- </ul> -->
                     <input type="hidden" value="{{request.path}}" name="currentPath" id="currentPath">
                 </div>
             </form>
@@ -142,7 +150,7 @@
     <!--Message bar to show the messages using django-->
     {% if messages %}
     {% for message in messages %}
-    <div class="alert alert-{{message.tags}} alert-dismissible">
+    <div class="alert alert-{{message.tags}} alert-dismissible" style="margin-bottom: -10px;">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong>Message : </strong> {{message}}
     </div>
@@ -241,13 +249,13 @@
                     <form action="/login/" method="post">{% csrf_token %}
                         Select Category
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="Choice" id="startup" value="1" checked>
+                            <input class="form-check-input" type="radio" name="Choice" id="startup" value="2" checked>
                             <label class="form-check-label" for="startup">
                               Start Up 
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="Choice" id="student" value="2" checked>
+                            <input class="form-check-input" type="radio" name="Choice" id="student" value="1" checked>
                             <label class="form-check-label" for="student">
                               Student
                             </label>

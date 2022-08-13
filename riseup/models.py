@@ -11,6 +11,7 @@ from django.conf import settings
 class Student(models.Model):
     table_id = models.AutoField(primary_key=True)
     user_type = models.IntegerField(default=0)
+    username=models.CharField(max_length=100,null=True)
     name = models.CharField(max_length=50,default="")
     age = models.IntegerField(default=0)
     area =models.CharField(max_length=100,default ="")
@@ -29,6 +30,7 @@ class Student(models.Model):
 class Investor(models.Model):
     table_id = models.AutoField(primary_key=True)
     user_type = models.IntegerField(default=0)
+    username=models.CharField(max_length=100,null=True)
     name = models.CharField(max_length=50,default="")
     phone = models.CharField(max_length=20,default ="")
     description=models.CharField(max_length=1000,default ="")
@@ -43,6 +45,7 @@ class Investor(models.Model):
 class Startup(models.Model):
     startup_id=models.AutoField(primary_key=True)
     user_type=models.IntegerField(default=0)
+    username=models.CharField(max_length=100,null=True)
     name=models.CharField(max_length=50,default="")
     tagname=models.CharField(max_length=200,default="")
     about=models.CharField(max_length=2000,default="")
@@ -65,3 +68,16 @@ class Startup(models.Model):
     def __str__(self):
         return self.name
 
+
+class Request(models.Model):
+    table_id = models.AutoField(primary_key=True)
+    user_name = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    user_type = models.IntegerField(default=0)
+    request_type = models.IntegerField(default=0)
+    description=models.CharField(max_length=1000,default ="")
+    specific_link=models.CharField(max_length=200,default=0)
+    timestamp = models.DateTimeField(auto_now_add=True, blank=True)
+    status = models.IntegerField(default=0)
+
+    def _str_(self):
+        return str(self.user_name)

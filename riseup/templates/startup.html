@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             font: 400 15px Lato, sans-serif;
@@ -187,6 +188,10 @@
             -webkit-animation-duration: 1s;
             visibility: visible;
         }
+        .mx-2{
+            font-size: 2rem;
+            margin-right: 1.5rem;
+        }
 
         @keyframes slide {
             0% {
@@ -298,25 +303,28 @@
 
 
     <!--FUNDING AND HIRING SECTION-->
-    <div class="container-fluid ">
+    <div class="container-fluid " style="padding: 30px 0px 0px 50px;">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-4" style="display: flex; justify-content:center;">
                 <span class="glyphicon glyphicon-globe logo slideanim"></span>
             </div>
             <div class="col-sm-8">
                 <h2>FOR YOU</h2><br>
                 <h4><strong>MISSION:</strong> {{startup_object.company_mission}}</h4>
                 <h4><strong>FUNDING TO BE RAISED : {{startup_object.fund_to_be_raised}} Crs </strong>
-                    <button type="button" class="btn btn-success m-2 mb-2 " data-toggle="modal"
+                <p><button type="button" class="btn btn-success " data-toggle="modal" style="margin: 2rem;   width: 29rem;
+                    height: 5rem;"
                         data-target="#investor">
-                        Be a Investor
-                    </button>
+                        <span style="font-size: 2rem;">Be a Investor</span>
+                        
+                    </button></p>
                 </h4>
                 <h4><strong>Present your Innovative ideas and be a part of our comapany</strong> </p>
                     <h4><strong>Job Vacancies : {{startup_object.job_vacancy}}</strong>
-                        <button type="button" class="btn btn-success m-2 mb-2 " data-toggle="modal"
+                        <p><button type="button" class="btn btn-success m-2 mb-2 " data-toggle="modal" style="margin: 2rem;   width: 29rem;
+                        height: 5rem;"
                             data-target="#student">
-                            Tell what you have
+                            <span style="font-size: 2rem;">Be a Investor</span>
                         </button> </p>
 
             </div>
@@ -334,7 +342,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/login/" method="post">{% csrf_token %}
+                    <form action="{% url 'request' %}" method="post">{% csrf_token %}
                         <input type="hidden" name="user_type" value="3">
                         <input type="hidden" name="request_type" value="3">
                         <div class="form-group">
@@ -366,7 +374,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="/login/" method="post">{% csrf_token %}
+                    <form action="{% url 'request' %}"  method="post">{% csrf_token %}
                         <input type="hidden" name="user_type" value="1">
                         <input type="hidden" name="request_type" value="1">
                         <div class="form-group">
@@ -388,34 +396,17 @@
     </div>
 
 
-    <!-- Container (Contact Section) -->
-    <div id="contact" class="container-fluid bg-grey">
-        <h2 class="text-center">CONTACT</h2>
-        <div class="row">
-            <div class="col-sm-5">
-                <p>Contact us and we'll get back to you within 24 hours.</p>
-                <p><span class="glyphicon glyphicon-map-marker"></span> Chicago, US</p>
-                <p><span class="glyphicon glyphicon-phone"></span> +00 1515151515</p>
-                <p><span class="glyphicon glyphicon-envelope"></span> myemail@something.com</p>
-            </div>
-            <div class="col-sm-7 slideanim">
-                <div class="row">
-                    <div class="col-sm-6 form-group">
-                        <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
-                    </div>
-                    <div class="col-sm-6 form-group">
-                        <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
-                    </div>
-                </div>
-                <textarea class="form-control" id="comments" name="comments" placeholder="Comment"
-                    rows="5"></textarea><br>
-                <div class="row">
-                    <div class="col-sm-12 form-group">
-                        <button class="btn btn-default pull-right" type="submit">Send</button>
-                    </div>
-                </div>
-            </div>
+    <!-- footer -->
+    
+    <div class="container-fluid " style="padding: 0px 0px 0px 50%;
+    ">
+        <div style="margin-bottom:2rem;">
+                <a href="#" class="fab fa-facebook-f mx-2"></a>
+                <a href="#" class="fab fa-twitter mx-2"></a>
+                <a href="#" class="fab fa-instagram mx-2"></a>
+                <a href="#" class="fab fa-linkedin mx-2"></a>
         </div>
+        
     </div>
 
 

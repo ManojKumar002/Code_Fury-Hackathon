@@ -18,7 +18,6 @@ def home(request):
     params={}
     startup_details=Startup.objects.all()
     params['startup_details']=startup_details
-    print(params)
     return render(request,"home.html",params)
 
 def signup(request):
@@ -45,23 +44,22 @@ def signup(request):
             messages.warning(request, 'Password is not matching')
             flag=1
             # if choice is 1 student
-        print(username,fname,lname,choice)
         choice = int(choice)
         if(choice==1):
-            signup = Student(name=fname + lname,email=email )
+            signup = Student(name=fname + lname,email=email,user_type=1,username=username )
             signup.save()
             flag=0
             # print(choice)
 
             # if choice is 2 startup
         if(choice==2):
-            signup = Startup(name=fname + lname,email=email )
+            signup = Startup(name=fname + lname,email=email,user_type=2,username=username )
             signup.save()
             flag=0
             # if choice is 3 investor
             # print(choice)/
         if(choice==3):
-            signup = Investor(name=fname + lname,email=email )
+            signup = Investor(name=fname + lname,email=email,user_type=3,username=username )
             signup.save()
             flag=0
             # print(choice)
@@ -84,7 +82,10 @@ def userLogin(request):
         username=request.POST['loginusername']
         userpass=request.POST['loginpass']
         currentPathlogIn=request.POST['currentPathlogIn']
+        choice=request.POST['Choice']
+
         user=authenticate(request,username=username,password=userpass)
+
         if user is None:
             messages.error(request, 'Invalid credentials, Please try again')
             return redirect(currentPathlogIn)
@@ -107,3 +108,56 @@ def startup(request,myid):
     startup_object=Startup.objects.get(startup_id=myid)
     params['startup_object']=startup_object
     return render(request,"startup.html",params)
+
+
+def request(request):
+    if request.method == "POST":
+        user_type = request.POST.get('user_type', '')
+        request_type = request.POST.get('request_type', '')
+        description = request.POST.get('description', '')
+        specific_link = request.POST.get('specific_link', '')
+        status  = request.POST.get('status', '')
+        finalreq = Request(user_name=request.user,user_type=user_type,request_type=request_type,description=description,specific_link=specific_link,status=status)
+        finalreq.save()
+    return redirect("/")
+
+
+def tracker(request):
+    params={}
+    try:
+        current_user=request.user.username
+        student=Student.objects.values('username')
+        investor=Investor.objects.values('username')
+        startup=Startup.objects.values('username')
+        for i in student:
+            print(i)
+            if(i['username']==current_user):
+                params['request1']=Student.objects.filter(username=i['username'])
+                params['user_type']=1
+                break
+        for i in investor:
+            print(i)
+            if(i['username']==current_user):
+                params['request1']=Student.objects.filter(username=i['username'])
+                params['user_type']=1
+                break
+        for i in startup:
+            print(i)
+            if(i['username']==current_user):
+                params['request1']=Student.objects.filter(username=i['username'])
+                params['user_type']=1
+                break
+    except Exception as e:
+        print(e)
+    # print(student)
+    # if(Startup.objects.get(username=request.user)):
+    #     params['request1']=Request.objects.filter(user_type=1)
+    #     params['request3']=Request.objects.filter(user_type=3)
+    #     params['user_type']=2
+    # if(Investor.objects.get(username=request.user)):
+    #     params['request1']=Request.objects.filter(user_type=3)
+    #     params['user_type']=1
+    # if(Student.objects.get(username=request.user)):
+    print(params)
+    
+    return render(request,"tracker.html",params)

@@ -12,8 +12,12 @@ class StudentAdmin(admin.ModelAdmin):
 class InvestorAdmin(admin.ModelAdmin):
     list_display=['table_id','user_type','name','email']
 
+class RequestAdmin(admin.ModelAdmin):
+    list_display=['user_name']
+
 
 
 admin.site.register(Startup,StartupAdmin)
 admin.site.register(Student,StudentAdmin)
 admin.site.register(Investor,InvestorAdmin)
+admin.site.register(Request,RequestAdmin)
