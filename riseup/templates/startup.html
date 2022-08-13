@@ -235,24 +235,16 @@
 <body id="myPage" data-spy="scroll" data-target=".navbar" data-offset="60">
 
     <div class="jumbotron text-center">
-        <h1>Company</h1>
-        <p>We specialize in blablabla</p>
+        <h1>{{startup_object.name}}</h1>
+        <p>{{startup_object.tagname}}</p>
     </div>
 
     <!-- Container (About Section) -->
     <div id="about" class="container-fluid">
         <div class="row">
             <div class="col-sm-8">
-                <h2>About Company Page</h2><br>
-                <h4>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat.</h4><br>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
-                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                    aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                    officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor
-                    incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <h2>About Company</h2><br>
+                <h4>{{startup_object.about}}</h4><br>
             </div>
             <div class="col-sm-4">
                 <span class="glyphicon glyphicon-signal logo"></span>
@@ -263,42 +255,42 @@
     
     <!-- Container (Services Section) -->
     <div id="services" class="container-fluid bg-grey text-center">
-        <h2>SERVICES</h2>
-        <h4>What we offer</h4>
+        <h2>STATISTICS</h2>
+        <h4>What we are</h4>
         <br>
         <div class="row slideanim">
             <div class="col-sm-4">
-                <span class="glyphicon glyphicon-off logo-small"></span>
-                <h4>POWER</h4>
-                <p>Lorem ipsum dolor sit amet..</p>
+                <span class="glyphicon glyphicon-wrench logo-small"></span>
+                <h4>COMPANY TYPE</h4>
+                <h4>{{startup_object.comapany_type}}</h4>
             </div>
             <div class="col-sm-4">
-                <span class="glyphicon glyphicon-heart logo-small"></span>
-                <h4>LOVE</h4>
-                <p>Lorem ipsum dolor sit amet..</p>
+                <span class="glyphicon glyphicon-euro logo-small"></span>
+                <h4>MARKET CAP</h4>
+                <h4>{{startup_object.market_cap}} Crs</h4>
             </div>
             <div class="col-sm-4">
                 <span class="glyphicon glyphicon-lock logo-small"></span>
-                <h4>JOB DONE</h4>
-                <p>Lorem ipsum dolor sit amet..</p>
+                <h4>REVENUE</h4>
+                <h4>{{startup_object.revenue}} Crs</h4>
             </div>
         </div>
         <br><br>
         <div class="row slideanim">
             <div class="col-sm-4">
                 <span class="glyphicon glyphicon-leaf logo-small"></span>
-                <h4>GREEN</h4>
-                <p>Lorem ipsum dolor sit amet..</p>
+                <h4>NET SALES</h4>
+                <h4>{{startup_object.netsales}} Crs</h4>
             </div>
             <div class="col-sm-4">
                 <span class="glyphicon glyphicon-certificate logo-small"></span>
-                <h4>CERTIFIED</h4>
-                <p>Lorem ipsum dolor sit amet..</p>
+                <h4>PROFIT AFTER TAX</h4>
+                <h4>{{startup_object.profit_after_tax}} Crs</h4>
             </div>
             <div class="col-sm-4">
-                <span class="glyphicon glyphicon-wrench logo-small"></span>
-                <h4 style="color:#303030;">HARD WORK</h4>
-                <p>Lorem ipsum dolor sit amet..</p>
+                <span class="glyphicon glyphicon-signal logo-small"></span>
+                <h4 style="color:#303030;">PROFIT GROWTH</h4>
+                <h4>{{startup_object.profit_growth}} %</h4>
             </div>
         </div>
     </div>
@@ -311,11 +303,11 @@
                 <span class="glyphicon glyphicon-globe logo slideanim"></span>
             </div>
             <div class="col-sm-8">
-                <h2>Our Values</h2><br>
+                <h2>FOR YOU</h2><br>
                 <h4><strong>MISSION:</strong> Our mission lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h4><br>
-                <p><strong>VISION:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                    <h4><strong>We are Hiring!:</strong> Our vision Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                     eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
                     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore

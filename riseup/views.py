@@ -8,6 +8,7 @@ from django.shortcuts import render,redirect
 from django.http.response import HttpResponse
 from django.contrib import messages
 from math import ceil
+from riseup.models import *
 import io
 import json
 
@@ -15,5 +16,8 @@ import json
 def index(request):
     return render(request,"index.html")
 
-def startup(request):
-    return render(request,"startup.html")
+def startup(request,myid):
+    params={}
+    startup_object=Startup.objects.get(startup_id=myid)
+    params['startup_object']=startup_object
+    return render(request,"startup.html",params)
