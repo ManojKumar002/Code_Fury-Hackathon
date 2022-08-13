@@ -14,3 +14,6 @@ import json
 # Create your views here.
 def index(request):
     return render(request,"index.html")
+
+def startup(request):
+    return render(request,"startup.html")
