@@ -1,13 +1,307 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!-- new link in boorstrap5 replacing the below old jquery script link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+
+
+    <title>{% block title %} {% endblock %}</title>
+    {% block css1 %} {% endblock %}
 </head>
+
 <body>
-    <h1>hello world</h1>
-    
+
+    <div id="fb-root"></div>
+    <!-- script for facebook plugin-->
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v12.0"
+        nonce="xuiu1WLy"></script>
+
+
+
+    <!-- nav bar starts here-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="padding: 3px;">
+        <!-- #logo and brand Name -->
+        <div style="display: flex;">
+            <a href="/" style="display: flex;">
+                {% comment %} <img src="https://img.icons8.com/nolan/64/fast-cart.png" /> {% endcomment %}
+                <span class="navbar-brand mt-2" style="margin-right:0px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, serif;
+                font-size: x-large;"><strong>StartUp</strong>
+                </span>
+            </a>
+
+        </div>
+
+
+        <div class="collapse navbar-collapse ml-3" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tracker">Tracker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/blog">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/about">About</a>
+                </li>
+            </ul>
+
+            <form action="/search/" class="form-inline my-2 my-lg-0" method="post">{% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                    name="search">
+                <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="">Search</button> -->
+            </form>
+
+
+
+            <!--Buttons to Trigger Login and Signup page-->
+
+            <!--After logged in-->
+            {% if user.is_authenticated %}
+            <!-- this forms sends the current url, so that when a user logout he stays in the same page -->
+            <form action="/logout/" method="post">
+                {% csrf_token %}
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle mb-1" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Signed In as {{request.user}}
+                    </button>
+                    <ul class="dropdown-menu" style="background-color: rgb(218, 218, 218);"
+                        aria-labelledby="dropdownMenuButton1">
+                        {% csrf_token %}
+                        <li>
+                            <button class="dropdown-item" style="cursor: pointer;" type="submit">Logout</button>
+                        </li>
+                    </ul>
+                    <input type="hidden" value="{{request.path}}" name="currentPath" id="currentPath">
+                </div>
+            </form>
+
+
+            {% else %}
+
+            <!-- before logging in-->
+
+            <button type="button" class="btn btn-success mr-2 mb-2" data-toggle="modal" data-target="#loginModal">
+                <!--Here id is targeted-->
+                Login
+            </button>
+
+            <button type="button" class="btn btn-success mr-2 mb-2" data-toggle="modal" data-target="#signupModal">
+                SignUp
+            </button>
+            {% endif %}
+
+
+
+
+
+            <!--Hamburger icon ,only visible in mobile view-->
+            <div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Displays Message below the Navbar-->
+
+    <!--Message bar to show the messages using Js-->
+    <div class="alert alert-warning alert-dismissible" style="display: none;" id='message_bar'></div>
+
+    <!--Message bar to show the messages using django-->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Message : </strong> {{message}}
+    </div>
+
+    {% endfor %}
+    {% endif %}
+
+
+
+
+    <!-- SignUp Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" aria-labelledby="signupModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalTitle">SignUp Here</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/signup/" method='post'>
+                        {% csrf_token %}
+                            </button>
+                            Select Category
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="choice" id="startup" value="2" checked>
+                                <label class="form-check-label" for="startup">
+                                  Start Up 
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="choice" id="student" value="1" checked>
+                                <label class="form-check-label" for="student">
+                                  Student
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="choice" id="investor" value="3" checked>
+                                <label class="form-check-label" for="investor">
+                                  Investor
+                                </label>
+                            </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Choose a unique username">
+                        </div>
+                        <div class="form-group">
+                            <label for="fname">First Name</label>
+                            <input type="text" class="form-control" id="fname" name="fname"
+                                placeholder="Enter Your First Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lname">Last Name</label>
+                            <input type="text" class="form-control" id="lname" name="lname"
+                                placeholder="Enter Your Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" class="form-control" id="singin_email" name="email"
+                                placeholder="name@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass1">Enter the password</label>
+                            <input type="password" class="form-control" id="pass1" name="pass1"
+                                placeholder="Choose Your Password">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass2">Confirm Password</label>
+                            <input type="password" class="form-control" id="pass2" name="pass2"
+                                placeholder="Enter your password again">
+                        </div>
+                        <input type="hidden" name="currentPathsignIn" id="currentPathsignIn" value="{{request.path}}">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalTitle">Login Here</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/login/" method="post">{% csrf_token %}
+                        Select Category
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Choice" id="startup" value="1" checked>
+                            <label class="form-check-label" for="startup">
+                              Start Up 
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Choice" id="student" value="2" checked>
+                            <label class="form-check-label" for="student">
+                              Student
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Choice" id="investor" value="3" checked>
+                            <label class="form-check-label" for="investor">
+                              Investor
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="loginusername" name="loginusername"
+                                placeholder="Choose a unique username">
+                        </div>
+                        <div class="form-group">
+                            <label for="pass">Enter your password </label>
+                            <input type="password" class="form-control" id="loginpass" name="loginpass"
+                                placeholder="Enter your password ">
+                        </div>
+                        <input type="hidden" name="currentPathlogIn" id="currentPathlogIn" value="{{request.path}}">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+    {% block body %} {% endblock %}
+
+
+    <script>   
+        function check_login_status() {
+            var login_status = document.getElementById('login_status');
+            if (login_status.value == 1) {
+                return true;
+            }
+            
+            else {
+                message_bar = document.getElementById('message_bar');
+                message_bar.innerHTML = `<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>Message : </strong>Please Login to add items to cart`;
+                message_bar.style.display = "block";
+                setTimeout(() => {
+                    message_bar.style.display = "none";
+                    message_bar.innerHTML = "";
+                }, 3000);
+                return false;
+            }
+        }
+    </script>
+    {% block js %} {% endblock %}
+
 </body>
+
 </html>
