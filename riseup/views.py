@@ -9,6 +9,7 @@ from django.http.response import HttpResponse
 from django.contrib import messages
 from math import ceil
 from riseup.models import *
+
 import io
 import json
 
@@ -19,6 +20,8 @@ def home(request):
     startup_details=Startup.objects.all()
     params['startup_details']=startup_details
     return render(request,"home.html",params)
+
+
 
 def signup(request):
     flag=0
@@ -32,49 +35,58 @@ def signup(request):
         choice=request.POST['choice']
         currentPath=request.POST['currentPathsignIn']
         
-
+        #?validation part
+        flag=0
         if len(username)<3 or len(username)>20:
             messages.warning(request, 'Username is either too long or too short')
             flag=1
-
         if not username.isalnum():
             messages.warning(request, 'Username should contain either alphabets or numerics')
             flag=1
         if pass1!=pass2:
             messages.warning(request, 'Password is not matching')
             flag=1
-            # if choice is 1 student
+
+
+        #? if validation fails return imediatly
+        if flag==1:
+            return redirect(currentPath)
+
+
+        #?validation for already existing users username and emailid
+        if(len(User.objects.filter(username=username))>0):
+            messages.warning(request, 'Username already exists')
+            return redirect(currentPath)
+
+        if(len(User.objects.filter(email=email))>0):
+            messages.warning(request, 'Email already exists')
+            return redirect(currentPath)
+
+
+
         choice = int(choice)
         if(choice==1):
             signup = Student(name=fname + lname,email=email,user_type=1,username=username )
             signup.save()
-            flag=0
-            # print(choice)
 
-            # if choice is 2 startup
         if(choice==2):
             signup = Startup(name=fname + lname,email=email,user_type=2,username=username )
             signup.save()
-            flag=0
-            # if choice is 3 investor
-            # print(choice)/
+
         if(choice==3):
             signup = Investor(name=fname + lname,email=email,user_type=3,username=username )
             signup.save()
-            flag=0
-            # print(choice)
-        if flag==1:
-            return redirect(currentPath)
-        else:
-            newUser=User.objects.create_user(username,email,pass1)
-            newUser.first_name=fname
-            newUser.last_name=lname
-            newUser.save()
-            messages.success(request, 'Successfully created account')
-            login(request,newUser)
-            return redirect(currentPath)
-    else:
-        return HttpResponse('Not Found')
+
+
+        newUser=User.objects.create_user(username,email,pass1)
+        newUser.first_name=fname
+        newUser.last_name=lname
+        newUser.save()
+        messages.success(request, 'Successfully created account')
+        login(request,newUser)
+        return redirect(currentPath)
+
+
 
 
 def userLogin(request):
@@ -83,17 +95,62 @@ def userLogin(request):
         userpass=request.POST['loginpass']
         currentPathlogIn=request.POST['currentPathlogIn']
         choice=request.POST['Choice']
+        print(choice)
 
         user=authenticate(request,username=username,password=userpass)
 
+        #if user doesnt exists return
         if user is None:
             messages.error(request, 'Invalid credentials, Please try again')
             return redirect(currentPathlogIn)
-        else:
+
+        else: 
+            #?first do the login directly to get the access of database
+            #?and the  check for the correctness of usertype
             login(request,user)
+
+            if(int(choice)==1):
+                student_obj=Student.objects.all()
+                flag=0
+                for i in student_obj:
+                    if(username==i.username):#if user is actually a student, like he mentioned
+                        flag=1
+                        break
+                if(flag==0):#?if user is not a student,then logout
+                    messages.warning(request, 'Please select valid usertype')
+                    logout(request)
+                    return redirect(currentPathlogIn)
+
+            elif(int(choice)==2):
+                startup_obj=Startup.objects.all()
+                flag=0
+                for i in startup_obj:
+                    if(username==i.username):
+                        flag=1
+                        break
+                if(flag==0):
+                    messages.warning(request, 'Please select valid usertype')
+                    logout(request)
+                    return redirect(currentPathlogIn)
+
+            elif(int(choice)==3):
+                investor_obj=Investor.objects.all()
+                flag=0
+                for i in investor_obj:
+                    if(username==i.username):
+                        flag=1
+                        break
+                if(flag==0):
+                    messages.warning(request, 'Please select valid usertype')
+                    logout(request)
+                    return redirect(currentPathlogIn)
+
+
             messages.success(request, 'Successfully Logged in')
             return redirect(currentPathlogIn)
     return HttpResponse('404 - Not found')
+
+
 
 
 def userLogout(request):
