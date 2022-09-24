@@ -1,4 +1,5 @@
 from pyexpat import model
+from statistics import mode
 from typing import MutableSequence
 from django.db import models
 from django.db.models.deletion import CASCADE
@@ -72,6 +73,7 @@ class Startup(models.Model):
 class Request(models.Model):
     table_id = models.AutoField(primary_key=True)
     user_name = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
+    startup_name=models.ForeignKey(Startup,on_delete=models.CASCADE)
     user_type = models.IntegerField(default=0)
     request_type = models.IntegerField(default=0)
     description=models.CharField(max_length=1000,default ="")

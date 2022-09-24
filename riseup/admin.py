@@ -13,7 +13,7 @@ class InvestorAdmin(admin.ModelAdmin):
     list_display=['table_id','user_type','name','email']
 
 class RequestAdmin(admin.ModelAdmin):
-    list_display=['user_name']
+    list_display=['user_name','startup_name']
 
 
 

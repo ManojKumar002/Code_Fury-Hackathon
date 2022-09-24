@@ -170,11 +170,12 @@ def startup(request,myid):
 def request(request):
     if request.method == "POST":
         user_type = request.POST.get('user_type', '')
+        startup_name = request.POST.get('startup_name', '')
         request_type = request.POST.get('request_type', '')
         description = request.POST.get('description', '')
         specific_link = request.POST.get('specific_link', '')
-        status  = request.POST.get('status', '')
-        finalreq = Request(user_name=request.user,user_type=user_type,request_type=request_type,description=description,specific_link=specific_link,status=status)
+        startup_obj=Startup.objects.get(username=startup_name)
+        finalreq = Request(user_name=request.user,startup_name=startup_obj,user_type=user_type,request_type=request_type,description=description,specific_link=specific_link)
         finalreq.save()
     return redirect("/")
 

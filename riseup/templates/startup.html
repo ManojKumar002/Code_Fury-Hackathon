@@ -188,7 +188,8 @@
             -webkit-animation-duration: 1s;
             visibility: visible;
         }
-        .mx-2{
+
+        .mx-2 {
             font-size: 2rem;
             margin-right: 1.5rem;
         }
@@ -312,21 +313,25 @@
                 <h2>FOR YOU</h2><br>
                 <h4><strong>MISSION:</strong> {{startup_object.company_mission}}</h4>
                 <h4><strong>FUNDING TO BE RAISED : {{startup_object.fund_to_be_raised}} Crs </strong>
-                <p><button type="button" class="btn btn-success " data-toggle="modal" style="margin: 2rem;   width: 29rem;
-                    height: 5rem;"
-                        data-target="#investor">
-                        <span style="font-size: 2rem;">Be a Investor</span>
-                        
-                    </button></p>
+
+                    {% if user_type == 3 or user_type == 0 %}
+                    <p><button type="button" class="btn btn-success " data-toggle="modal" style="margin: 2rem;   width: 29rem;
+                    height: 5rem;" data-target="#investor">
+                            <span style="font-size: 2rem;">Be a Investor</span>
+                        </button></p>
+                    {% endif %}
+
                 </h4>
+                <br>
                 <h4><strong>Present your Innovative ideas and be a part of our comapany</strong> </p>
                     <h4><strong>Job Vacancies : {{startup_object.job_vacancy}}</strong>
-                        <p><button type="button" class="btn btn-success m-2 mb-2 " data-toggle="modal" style="margin: 2rem;   width: 29rem;
-                        height: 5rem;"
-                            data-target="#student">
-                            <span style="font-size: 2rem;">Be a Investor</span>
-                        </button> </p>
 
+                        {% if user_type == 1 or user_type == 0 %}
+                        <p><button type="button" class="btn btn-success m-2 mb-2 " data-toggle="modal" style="margin: 2rem;   width: 29rem;
+                        height: 5rem;" data-target="#student">
+                                <span style="font-size: 2rem;">Present your Idea</span>
+                            </button> </p>
+                        {% endif %}
             </div>
         </div>
     </div>
@@ -343,19 +348,26 @@
                 </div>
                 <div class="modal-body">
                     <form action="{% url 'request' %}" method="post">{% csrf_token %}
-                        <input type="hidden" name="user_type" value="3">
-                        <input type="hidden" name="request_type" value="3">
-                        <div class="form-group">
-                            <label for="pass">Tell your views</label>
-                            <textarea name="description" id="description" cols="68" rows="5"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="pass">Enter a link for reference</label>
-                            <input type="text" class="form-control" id="specific_link" name="specific_link"
-                                placeholder="Enter a link ">
-                        </div>
-                        <input type="hidden" name="status" id="status" value="0">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        {% if user_type == 0 %}
+                        <!--for the user who dont have account-->
+                        <fieldset disabled>
+                            {% else %}
+                            <fieldset>
+                                {% endif %}
+                                <input type="hidden" name="user_type" value="{{user_type}}">
+                                <input type="hidden" name="request_type" value="3">
+                                <input type="hidden" name="startup_name" value="{{startup_object.username}}">
+                                <div class="form-group">
+                                    <label for="pass">Tell your views</label>
+                                    <textarea name="description" id="description" cols="68" rows="5"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pass">Enter a link for reference</label>
+                                    <input type="text" class="form-control" id="specific_link" name="specific_link"
+                                        placeholder="Enter a link ">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </fieldset>
                     </form>
                 </div>
                 <div class="modal-footer"></div>
@@ -374,20 +386,27 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{% url 'request' %}"  method="post">{% csrf_token %}
-                        <input type="hidden" name="user_type" value="1">
-                        <input type="hidden" name="request_type" value="1">
-                        <div class="form-group">
-                            <label for="pass">Tell about yourself</label>
-                            <textarea name="description" id="description" cols="68" rows="5"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="pass">Enter a link to get your ides or resume</label>
-                            <input type="text" class="form-control" id="specific_link" name="specific_link"
-                                placeholder="Enter a link ">
-                        </div>
-                        <input type="hidden" name="status" id="status" value="0">
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                    <form action="{% url 'request' %}" method="post">{% csrf_token %}
+                        {% if user_type == 0 %}
+                        <!--for the user who dont have account-->
+                        <fieldset disabled>
+                            {% else %}
+                            <fieldset>
+                                {% endif %}
+                                <input type="hidden" name="user_type" value="1">
+                                <input type="hidden" name="request_type" value="1">
+                                <input type="hidden" name="startup_name" value={{startup_object.username}}>
+                                <div class="form-group">
+                                    <label for="pass">Tell about yourself</label>
+                                    <textarea name="description" id="description" cols="68" rows="5"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="pass">Enter a link to get your ides or resume</label>
+                                    <input type="text" class="form-control" id="specific_link" name="specific_link"
+                                        placeholder="Enter a link ">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </fieldset>
                     </form>
                 </div>
                 <div class="modal-footer"></div>
@@ -397,16 +416,16 @@
 
 
     <!-- footer -->
-    
+
     <div class="container-fluid " style="padding: 0px 0px 0px 50%;
     ">
         <div style="margin-bottom:2rem;">
-                <a href="#" class="fab fa-facebook-f mx-2"></a>
-                <a href="#" class="fab fa-twitter mx-2"></a>
-                <a href="#" class="fab fa-instagram mx-2"></a>
-                <a href="#" class="fab fa-linkedin mx-2"></a>
+            <a href="#" class="fab fa-facebook-f mx-2"></a>
+            <a href="#" class="fab fa-twitter mx-2"></a>
+            <a href="#" class="fab fa-instagram mx-2"></a>
+            <a href="#" class="fab fa-linkedin mx-2"></a>
         </div>
-        
+
     </div>
 
 
