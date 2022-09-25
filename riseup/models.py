@@ -69,7 +69,6 @@ class Startup(models.Model):
     def __str__(self):
         return self.name
 
-
 class Request(models.Model):
     table_id = models.AutoField(primary_key=True)
     user_name = models.ForeignKey(User,on_delete=models.CASCADE,null=True)

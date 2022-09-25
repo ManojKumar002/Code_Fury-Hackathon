@@ -188,19 +188,16 @@ def tracker(request):
         investor=Investor.objects.values('username')
         startup=Startup.objects.values('username')
         for i in student:
-            print(i)
             if(i['username']==current_user):
                 params['request1']=Student.objects.filter(username=i['username'])
                 params['user_type']=1
                 break
         for i in investor:
-            print(i)
             if(i['username']==current_user):
                 params['request1']=Student.objects.filter(username=i['username'])
                 params['user_type']=1
                 break
         for i in startup:
-            print(i)
             if(i['username']==current_user):
                 params['request1']=Student.objects.filter(username=i['username'])
                 params['user_type']=1
