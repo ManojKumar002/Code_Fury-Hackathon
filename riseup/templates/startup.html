@@ -11,6 +11,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    
     <style>
         body {
             font: 400 15px Lato, sans-serif;
@@ -235,6 +237,71 @@
                 font-size: 150px;
             }
         }
+
+
+        /*footer starts*/
+
+        .footer-basic {
+            padding: 40px 0;
+            background-color: #ffffff;
+            color: #4b4c4d;
+        }
+
+        .footer-basic ul {
+            padding: 0;
+            list-style: none;
+            text-align: center;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        .footer-basic li {
+            padding: 0 10px;
+        }
+
+        .footer-basic ul a {
+            color: inherit;
+            text-decoration: none;
+            opacity: 0.8;
+        }
+
+        .footer-basic ul a:hover {
+            opacity: 1;
+        }
+
+        .footer-basic .social {
+            text-align: center;
+            padding-bottom: 25px;
+        }
+
+        .footer-basic .social>a {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            display: inline-block;
+            text-align: center;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            margin: 0 8px;
+            color: inherit;
+            opacity: 0.75;
+        }
+
+        .footer-basic .social>a:hover {
+            opacity: 0.9;
+        }
+
+        .footer-basic .copyright {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 0;
+        }
+
+        /*footer ends*/
     </style>
 </head>
 
@@ -417,15 +484,24 @@
 
     <!-- footer -->
 
-    <div class="container-fluid " style="padding: 0px 0px 0px 50%;
-    ">
-        <div style="margin-bottom:2rem;">
-            <a href="#" class="fab fa-facebook-f mx-2"></a>
-            <a href="#" class="fab fa-twitter mx-2"></a>
-            <a href="#" class="fab fa-instagram mx-2"></a>
-            <a href="#" class="fab fa-linkedin mx-2"></a>
+    <div class="footer-basic">
+        <div style="width:400px;margin: auto;margin-bottom: 1rem;">
+            <h2>Our social media handlings</h2>
         </div>
-
+        <footer>
+            <div class="social">
+                <a href="{{startup_object.website_link}}"><img src="https://img.icons8.com/ios/50/000000/domain.png"/></a>
+                <a href="mailto:{{startup_object.email}}"><img src="https://img.icons8.com/material-rounded/48/000000/new-post.png"/></a>
+                <a href="{{startup_object.twitter_link}}"><img src="https://img.icons8.com/ios-glyphs/50/000000/twitter--v2.png"/></a>
+                <a href="{{startup_object.linkedin_link}}"><img src="https://img.icons8.com/ios-glyphs/50/000000/linkedin-circled--v1.png"/></a>
+            </div>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="#about">About</a></li>
+                <li class="list-inline-item"><a href="#statistics">Statistics</a></li>
+                <li class="list-inline-item"><a href="#foryou">For you</a></li>
+            </ul>
+            <p class="copyright">Company Name © 2018</p>
+        </footer>
     </div>
 
 
