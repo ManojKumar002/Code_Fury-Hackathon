@@ -3,172 +3,660 @@
 {% block title %}Tracker{% endblock %}
 
 {% block css1 %}
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
 
+  td,
+  th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .login_img {
+    width: 100vh;
+    height: 95vh;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+
+  td {
+    text-align: center;
+  }
+
+  th {
+    text-align: center;
+  }
+</style>
 {% endblock %}
+{% block body %}
 
+<body style="background-color: lightgrey;">
 
- {% block body %}
+  {% if user.is_authenticated %}
 
-    <div class="container d-flex justify-content-center">
-        <img src="https://i.ibb.co/ykcz80h/No-data-rafiki.png" alt="">
-    </div>
-
+  {% if data == 1 %}
+  <div class="container p-4 mt-5" style="background-color:#fff; box-shadow: 2px 1px 16px 1px grey;">
     <p class="text-center" style="font-size:5rem; font-weight: 500;">Tracker</p>
     <p class="text-center" style="font-size:2rem; font-weight: 300;">Track all your Interactions.</p>
+  </div>
 
-    <div class="container my-5">
-        <h1>PENDING REQUESTS</h1>
-        
+  <div class="container my-5 ">
+    <div class="container my-4 p-4" style="background-color:#fff; box-shadow: 2px 1px 16px 1px grey;">
+      {% if user_type == 2 %}
+      <h1 class="my-3 text-center">PENDING REQUESTS</h1>
+      <div class="mt-5 p-5" style="border:solid 1px lightblue;border-radius: 2rem;">
+        {% if s_list %}
+        <h3 class="my-4">STUDENTS</h3>
+        <table class="text-center">
 
-        <div class="accordion w-75 mt-5" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item mt-3">
-              <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                    <div class="d-flex justify-content-around" >
-                        <span class="badge bg-secondary p-3 mx-1 ">Username</span>
-                        <span class="badge bg-secondary p-3 mx-1">Usertype</span>
-                        <span class="badge bg-secondary p-3 mx-1">Request type</span>
-                    </div>
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne" style="background-color:rgb(242, 249, 242);">
-                <div class="accordion-body">
-                    <strong>Description.</strong> It is shown by default, until the collapse plugin adds the
-                    appropriate classes that we use to style each element. These classes control the overall
-                    appearance, as well as the showing and hiding via CSS transitions. You can modify any of this
-                    with custom CSS or overriding our default variables. It's also worth noting that just about any
-                    HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    <p>links</p>
-                    <button type="button" class="btn btn-secondary">Approve</button>
-                    <button type="button" class="btn btn-danger">Reject</button>
+          <tr>
+            <th>USERNAME</th>
+            <th>USERTYPE</th>
+            <th>REQUEST TYPE</th>
+            <th>ACTION</th>
+          </tr>
+
+          {% for items in s_list %}
+          <tr class="mb-1 table-primary">
+            <td>{{items.0}}</td>
+            <td>{{items.1}} </td>
+            <td>{{items.2}}</td>
+            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop{{forloop.counter}}a">
+                view
+              </button></td>
+          </tr>
+
+          <div class="modal fade bd-example-modal-lg " id="staticBackdrop{{forloop.counter}}a" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{forloop.counter}}aLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdrop{{forloop.counter}}aLabel">Request Details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              </div>
-            </div>
-            <div class="accordion-item mt-3">
-              <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                    <div>
-                        <p><span class="badge bg-secondary p-1">Username</span></p>
-                        <p><span class="badge bg-secondary p-1">Usertype</span></p>
-                        <p><span class="badge bg-secondary p-1">Request type</span></p>
-                    </div>
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                <div class="accordion-body">
-                    <strong>Description.</strong> It is shown by default, until the collapse plugin adds the
-                    appropriate classes that we use to style each element. These classes control the overall
-                    appearance, as well as the showing and hiding via CSS transitions. You can modify any of this
-                    with custom CSS or overriding our default variables. It's also worth noting that just about any
-                    HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    <p>links</p>
-                    <button type="button" class="btn btn-secondary">Approve</button>
-                    <button type="button" class="btn btn-danger">Reject</button>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-around">
+                    <span class="badge bg-secondary  p-3 mx-1 ">Username : {{items.0}}</span>
+                    <span class="badge bg-secondary  p-3 mx-1">User-Type: {{items.1}}</span>
+                    <span class="badge bg-secondary  p-3 mx-1">{{items.2}}</span>
+
+                  </div>
+                  <p class="my-3 mx-1"><strong>Details</strong></p>
+                  <p class="my-2 mx-1">{{items.3}}</p>
+
                 </div>
-              </div>
-            </div>
-            <div class="accordion-item mt-3">
-              <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                    <div>
-                        <p><span class="badge bg-secondary p-1">Username</span></p>
-                        <p><span class="badge bg-secondary p-1">Usertype</span></p>
-                        <p><span class="badge bg-secondary p-1">Request type</span></p>
-                    </div>
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                <div class="accordion-body">
-                    <strong>Description.</strong> It is shown by default, until the collapse plugin adds the
-                    appropriate classes that we use to style each element. These classes control the overall
-                    appearance, as well as the showing and hiding via CSS transitions. You can modify any of this
-                    with custom CSS or overriding our default variables. It's also worth noting that just about any
-                    HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    <p>links</p>
-                    <button type="button" class="btn btn-secondary">Approve</button>
-                    <button type="button" class="btn btn-danger">Reject</button>
+                <div class="modal-footer">
+                  <form action="/tracker/" method="post">{% csrf_token %}
+                    <input type="hidden" name="reject" value="2">
+                    <input type="hidden" name="table_id"  value="{{items.4}}">
+                    <button type="submit" class="btn btn-primary">Reject</button>
+                  </form>
+                  <form action="/tracker/" method="post">{% csrf_token %}
+                    <input type="hidden" name="approve"  value="1">
+                    <input type="hidden" name="table_id2"  value="{{items.4}}">
+                    <button type="submit" class="btn btn-success mx-2">Approve</button>
+                  </form>
                 </div>
               </div>
             </div>
           </div>
-    </div>
+          {% endfor %}
+        </table>
+        {% endif %}
 
-    <div class="container my-5">
-        <h1>COMPLETED REQUESTS</h1>
-        
-        <div class="accordion w-75 mt-5" id="accordionPanelsStayOpenExample">
-            <div class="accordion-item mt-3">
-              <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                    <div class="d-flex justify-content-around" >
-                        <span class="badge bg-secondary p-3 mx-1 ">Username</span>
-                        <span class="badge bg-secondary p-3 mx-1">Usertype</span>
-                        <span class="badge bg-secondary p-3 mx-1">Request type</span>
-                    </div>
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show " style="background-color:rgb(255 250 250);"     aria-labelledby="panelsStayOpen-headingOne">
-                <div class="accordion-body">
-                    <strong>Description.</strong> It is shown by default, until the collapse plugin adds the
-                    appropriate classes that we use to style each element. These classes control the overall
-                    appearance, as well as the showing and hiding via CSS transitions. You can modify any of this
-                    with custom CSS or overriding our default variables. It's also worth noting that just about any
-                    HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    <p>links</p>
-                    <h2><span class="badge bg-danger p-1">Rejected</span></h2>
+
+        {% if i_list %}
+        <h3 class="my-4">INVESTORS</h3>
+        <table>
+
+          <tr>
+            <th>USERNAME</th>
+            <th>USERTYPE</th>
+            <th>REQUEST TYPE</th>
+            <th>ACTION</th>
+          </tr>
+
+          {% for items in i_list %}
+          <tr class="mb-1 table-primary">
+            <td>{{items.0}}</td>
+            <td>{{items.1}} </td>
+            <td>{{items.2}}</td>
+            <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop{{forloop.counter}}b">
+                view
+              </button></td>
+          </tr>
+          <div class="modal fade bd-example-modal-lg" id="staticBackdrop{{forloop.counter}}b" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{forloop.counter}}bLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdrop{{forloop.counter}}bLabel">Request Details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-              </div>
-            </div>
-            <div class="accordion-item mt-3">
-              <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                    <div>
-                        <p><span class="badge bg-secondary p-1">Username</span></p>
-                        <p><span class="badge bg-secondary p-1">Usertype</span></p>
-                        <p><span class="badge bg-secondary p-1">Request type</span></p>
-                    </div>
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
-                <div class="accordion-body">
-                    <strong>Description.</strong> It is shown by default, until the collapse plugin adds the
-                    appropriate classes that we use to style each element. These classes control the overall
-                    appearance, as well as the showing and hiding via CSS transitions. You can modify any of this
-                    with custom CSS or overriding our default variables. It's also worth noting that just about any
-                    HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    <p>links</p>
-                    <h2><span class="badge bg-danger p-1">Rejected</span></h2>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-around">
+                    <span class="badge bg-secondary  p-3 mx-1 ">Username : {{items.0}}</span>
+                    <span class="badge bg-secondary  p-3 mx-1">User-Type: {{items.1}}</span>
+                    <span class="badge bg-secondary  p-3 mx-1">{{items.2}}</span>
+
+                  </div>
+                  <p class="my-3 mx-1"><strong>Details</strong></p>
+                  <p class="my-2 mx-1">{{items.3}}</p>
+
                 </div>
-              </div>
-            </div>
-            <div class="accordion-item mt-3">
-              <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                    <div>
-                        <p><span class="badge bg-secondary p-1">Username</span></p>
-                        <p><span class="badge bg-secondary p-1">Usertype</span></p>
-                        <p><span class="badge bg-secondary p-1">Request type</span></p>
-                    </div>
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                <div class="accordion-body">
-                    <strong>Description.</strong> It is shown by default, until the collapse plugin adds the
-                    appropriate classes that we use to style each element. These classes control the overall
-                    appearance, as well as the showing and hiding via CSS transitions. You can modify any of this
-                    with custom CSS or overriding our default variables. It's also worth noting that just about any
-                    HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                    <p>links</p>
-                    <h2><span class="badge bg-danger p-1">Rejected</span></h2>
+                <div class="modal-footer">
+                  <form action="/tracker/" method="post">{% csrf_token %}
+                    <input type="hidden" name="reject" value="2">
+                    <input type="hidden" name="table_id"  value="{{items.4}}">
+                    <button type="submit" class="btn btn-primary">Reject</button>
+                  </form>
+                  <form action="/tracker/" method="post">{% csrf_token %}
+                    <input type="hidden" name="approve"  value="1">
+                    <input type="hidden" name="table_id2"  value="{{items.4}}">
+                    <button type="submit" class="btn btn-success mx-2">Approve</button>
+                  </form>
+
+
                 </div>
               </div>
             </div>
           </div>
-        
+          {% endfor %}
+        </table>
+        {% endif %}
+      </div>
+
+      <div class="mt-5 p-5" style="border:solid 1px greenyellow;border-radius: 2rem;">
+        {% if c_list %}
+        <h3 class="my-4"><span style="color: green;">APPROVED</span></h3>
+        <table>
+
+          <tr>
+            <th>USERNAME</th>
+            <th>USERTYPE</th>
+            <th>REQUEST TYPE</th>
+            <th>ACTION</th>
+
+          </tr>
+
+          {% for items in c_list %}
+          <tr class="table-success">
+            <td>{{items.0}}</td>
+            <td>{{items.1}} </td>
+            <td>{{items.2}}</td>
+            <td><button type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop{{forloop.counter}}c">
+                view
+              </button></td>
+          </tr>
+
+          <!-- Modal -->
+          <div class="modal fade bd-example-modal-lg" id="staticBackdrop{{forloop.counter}}c" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{forloop.counter}}cLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdrop{{forloop.counter}}cLabel">Request Details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-around">
+                    <span class="badge bg-success  p-3 mx-1 ">Username : {{items.0}}</span>
+                    <span class="badge bg-success  p-3 mx-1">User-Type: {{items.1}}</span>
+                    <span class="badge bg-success  p-3 mx-1">{{items.2}}</span>
+                  </div>
+                  <p class="my-3 mx-1"><strong>Details</strong></p>
+                  <p class="my-2 mx-1">{{items.3}}</p>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </table>
+        {% endif %}
+
+        {% if inc_list %}
+        <h3 class="my-4"><span style="color: red;">REJECTED</span></h3>
+        <table>
+
+          <tr>
+            <th>USERNAME</th>
+            <th>USERTYPE</th>
+            <th>REQUEST TYPE</th>
+            <th>ACTION</th>
+          </tr>
+
+          {% for items in inc_list %}
+          <tr class="table-danger">
+            <td>{{items.0}}</td>
+            <td>{{items.1}} </td>
+            <td>{{items.2}}</td>
+            <td><button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop{{forloop.counter}}d">
+                view
+              </button></td>
+          </tr>
+          <!-- Modal -->
+          <div class="modal fade bd-example-modal-lg" id="staticBackdrop{{forloop.counter}}d" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{forloop.counter}}dLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdrop{{forloop.counter}}dLabel">Request Details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-around">
+                    <span class="badge bg-danger  p-3 mx-1 ">Username : {{items.0}}</span>
+                    <span class="badge bg-danger  p-3 mx-1">User-Type: {{items.1}}</span>
+                    <span class="badge bg-danger  p-3 mx-1">{{items.2}}</span>
+                  </div>
+                  <p class="my-3 mx-1"><strong>Details</strong></p>
+                  <p class="my-2 mx-1">{{items.3}}</p>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </table>
+        {% endif %}
+      </div>
+
+      {% endif %}
+
+      <!-- ????????????????????????????????????????????????????????????? -->
+      {% if user_type == 1 %}
+      {% if reqs_list %}
+      <table>
+
+        <tr>
+          <th>USERNAME</th>
+          <th>USERTYPE</th>
+          <th>STARTUP NAME</th>
+          <th>REQUEST TYPE</th>
+          <th>ACTION</th>
+        </tr>
+
+        {% for items in reqs_list %}
+        <tr class="mb-1 table-primary">
+          <td>{{items.0}}</td>
+          <td>{{items.1}} </td>
+          <td>{{items.2}}</td>
+          <td>{{items.3}}</td>
+          <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop{{forloop.counter}}e">
+              view
+            </button></td>
+        </tr>
+        <div class="modal fade bd-example-modal-lg" id="staticBackdrop{{forloop.counter}}e" data-bs-backdrop="static"
+          data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{forloop.counter}}eLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdrop{{forloop.counter}}eLabel">Request Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="d-flex justify-content-around">
+                  <span class="badge bg-secondary  p-3 mx-1 ">Username : {{items.0}}</span>
+                  <span class="badge bg-secondary  p-3 mx-1">User-Type: {{items.1}}</span>
+                  <span class="badge bg-secondary  p-3 mx-1">{{items.2}}</span>
+                  <span class="badge bg-secondary  p-3 mx-1">{{items.3}}</span>
+                </div>
+                <p class="my-3 mx-1"><strong>Details</strong></p>
+                <p class="my-2 mx-1">{{items.4}}</p>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </table>
+      {% endif %}
+
+      {% if c_list %}
+
+      <h3 class="my-4"><span style="color: green;">APPROVED</span></h3>
+      <table>
+
+        <tr>
+          <th>USERNAME</th>
+          <th>USERTYPE</th>
+          <th>STARTUP NAME</th>
+          <th>REQUEST TYPE</th>
+          <th>ACTION</th>
+        </tr>
+
+        {% for items in c_list %}
+        <tr class="table-success">
+          <td>{{items.0}}</td>
+          <td>{{items.1}} </td>
+          <td>{{items.2}}</td>
+          <td>{{items.3}}</td>
+          <td><button type="button" class="btn btn-success" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop{{forloop.counter}}f">
+              view
+            </button></td>
+        </tr>
+
+        <div class="modal fade bd-example-modal-lg" id="staticBackdrop{{forloop.counter}}f" data-bs-backdrop="static"
+          data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{forloop.counter}}fLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdrop{{forloop.counter}}fLabel">Request Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="d-flex justify-content-around">
+                  <span class="badge bg-success  p-3 mx-1 ">Username : {{items.0}}</span>
+                  <span class="badge bg-success  p-3 mx-1">User-Type: {{items.1}}</span>
+                  <span class="badge bg-success  p-3 mx-1">{{items.2}}</span>
+                  <span class="badge bg-success  p-3 mx-1">{{items.3}}</span>
+                </div>
+                <p class="my-3 mx-1"><strong>Details</strong></p>
+                <p class="my-2 mx-1">{{items.4}}</p>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </table>
+      {% endif %}
+
+      {% if inc_list %}
+      <h3 class="my-4"><span style="color: red;">REJECTED</span></h3>
+      <table>
+
+        <tr>
+          <th>USERNAME</th>
+          <th>USERTYPE</th>
+          <th>STARTUP NAME</th>
+          <th>REQUEST TYPE</th>
+          <th>ACTION</th>
+        </tr>
+
+        {% for items in inc_list %}
+        <tr class="table-danger">
+          <td>{{items.0}}</td>
+          <td>{{items.1}} </td>
+          <td>{{items.2}}</td>
+          <td>{{items.3}}</td>
+          <td><button type="button" class="btn btn-danger" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop{{forloop.counter}}g">
+              view
+            </button></td>
+        </tr>
+        <div class="modal fade bd-example-modal-lg" id="staticBackdrop{{forloop.counter}}g" data-bs-backdrop="static"
+          data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{forloop.counter}}gLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdrop{{forloop.counter}}gLabel">Request Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="d-flex justify-content-around">
+                  <span class="badge bg-danger  p-3 mx-1 ">Username : {{items.0}}</span>
+                  <span class="badge bg-danger  p-3 mx-1">User-Type: {{items.1}}</span>
+                  <span class="badge bg-danger  p-3 mx-1">{{items.2}}</span>
+                  <span class="badge bg-danger  p-3 mx-1">{{items.3}}</span>
+                </div>
+                <p class="my-3 mx-1"><strong>Details</strong></p>
+                <p class="my-2 mx-1">{{items.4}}</p>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </table>
+      {% endif %}
+
+      {% endif %}
+
+      <!-- ????????????????????????????????????????????????????????????? -->
+      {% if user_type == 3 %}
+      {% if reqi_list %}
+      <table>
+
+        <tr>
+          <th>USERNAME</th>
+          <th>USERTYPE</th>
+          <th>STARTUP NAME</th>
+          <th>REQUEST TYPE</th>
+          <th>ACTION</th>
+        </tr>
+
+        {% for items in reqi_list %}
+        <tr class="mb-1 table-primary">
+          <td>{{items.0}}</td>
+          <td>{{items.1}} </td>
+          <td>{{items.2}}</td>
+          <td>{{items.3}}</td>
+          <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
+              data-bs-target="#staticBackdrop{{forloop.counter}}h">
+              view
+            </button></td>
+        </tr>
+        <div class="modal fade bd-example-modal-lg" id="staticBackdrop{{forloop.counter}}h" data-bs-backdrop="static"
+          data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{forloop.counter}}hLabel"
+          aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdrop{{forloop.counter}}hLabel">Request Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="d-flex justify-content-around">
+                  <span class="badge bg-secondary  p-3 mx-1 ">Username : {{items.0}}</span>
+                  <span class="badge bg-secondary  p-3 mx-1">User-Type: {{items.1}}</span>
+                  <span class="badge bg-secondary  p-3 mx-1">{{items.2}}</span>
+                  <span class="badge bg-secondary  p-3 mx-1">{{items.3}}</span>
+                </div>
+                <p class="my-3 mx-1"><strong>Details</strong></p>
+                <p class="my-2 mx-1">{{items.4}}</p>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </table>
+      {% endif %}
+
+      <div class="my-4">
+        {% if c_list %}
+        <h3 class="my-4"><span style="color: green;">APPROVED</span></h3>
+        <table>
+
+          <tr>
+            <th>USERNAME</th>
+            <th>USERTYPE</th>
+            <th>STARTUP NAME</th>
+            <th>REQUEST TYPE</th>
+            <th>ACTION</th>
+          </tr>
+
+          {% for items in c_list %}
+          <tr class="table-success">
+            <td>{{items.0}}</td>
+            <td>{{items.1}} </td>
+            <td>{{items.2}}</td>
+            <td>{{items.3}}</td>
+            <td><button type="button" class="btn btn-success" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop{{forloop.counter}}i">
+                view
+              </button></td>
+          </tr>
+          <div class="modal fade bd-example-modal-lg" id="staticBackdrop{{forloop.counter}}i" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{forloop.counter}}iLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdrop{{forloop.counter}}iLabel">Request Details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-around">
+                    <span class="badge bg-success  p-3 mx-1 ">Username : {{items.0}}</span>
+                    <span class="badge bg-success  p-3 mx-1">User-Type: {{items.1}}</span>
+                    <span class="badge bg-success  p-3 mx-1">{{items.2}}</span>
+                    <span class="badge bg-success  p-3 mx-1">{{items.3}}</span>
+                  </div>
+                  <p class="my-3 mx-1"><strong>Details</strong></p>
+                  <p class="my-2 mx-1">{{items.4}}</p>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </table>
+        {% endif %}
+
+        {% if inc_list %}
+        <h3 class="my-4"><span style="color: red;">REJECTED</span></h3>
+        <table>
+
+          <tr>
+            <th>USERNAME</th>
+            <th>USERTYPE</th>
+            <th>STARTUP NAME</th>
+            <th>REQUEST TYPE</th>
+            <th>ACTION</th>
+          </tr>
+
+          {% for items in inc_list %}
+          <tr class="table-danger">
+            <td>{{items.0}}</td>
+            <td>{{items.1}} </td>
+            <td>{{items.2}}</td>
+            <td>{{items.3}}</td>
+            <td><button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                data-bs-target="#staticBackdrop{{forloop.counter}}j">
+                view
+              </button></td>
+          </tr>
+          <div class="modal fade bd-example-modal-lg" id="staticBackdrop{{forloop.counter}}j" data-bs-backdrop="static"
+            data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{forloop.counter}}jLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdrop{{forloop.counter}}jLabel">Request Details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="d-flex justify-content-around">
+                    <span class="badge bg-danger  p-3 mx-1 ">Username : {{items.0}}</span>
+                    <span class="badge bg-danger  p-3 mx-1">User-Type: {{items.1}}</span>
+                    <span class="badge bg-danger  p-3 mx-1">{{items.2}}</span>
+                    <span class="badge bg-danger  p-3 mx-1">{{items.3}}</span>
+                  </div>
+                  <p class="my-3 mx-1"><strong>Details</strong></p>
+                  <p class="my-2 mx-1">{{items.4}}</p>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </table>
+        {% endif %}
+      </div>
+
+
+
+
+
+      {% endif %}
+
     </div>
-    {% endblock %}
-    {% block js %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
-        crossorigin="anonymous"></script>
-    {% endblock %}
+
+  </div>
+
+
+  {% else %}
+  <div class="container d-flex justify-content-center login_img">
+    <img src="https://i.ibb.co/ryDTkwR/No-data-rafiki.png" alt="">
+  </div>
+  {% endif %}
+
+
+
+
+
+  {% else %}
+  <div class="container d-flex justify-content-center login_img">
+    <img src="https://i.ibb.co/jH9VpLn/5464649-2853458.jpg" alt="">
+  </div>
+  {% endif %}
+
+
+
+</body>
+{% endblock %}
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+{% endblock %}

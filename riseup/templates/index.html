@@ -63,7 +63,7 @@
             <a href="/" style="display: flex;">
                 {% comment %} <img src="https://img.icons8.com/nolan/64/fast-cart.png" /> {% endcomment %}
                 <span class="navbar-brand mt-2" style="margin-right:0px;font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif, serif;
-                font-size: x-large;"><strong>StartUp</strong>
+                font-size: x-large;"><strong>RiseUp</strong>
                 </span>
             </a>
 
@@ -76,7 +76,10 @@
                     <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/tracker">Tracker</a>
+                    <a class="nav-link" href="{% url 'riseupTracker' %}">Tracker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'riseupProfile' %}">Profile</a>
                 </li>
             </ul>
 
@@ -96,19 +99,10 @@
             <form action="/logout/" method="post">
                 {% csrf_token %}
                 <div class="dropdown">
-                    <!-- <button class="btn btn-secondary dropdown-toggle mb-1" type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Signed In as {{request.user}}
-                    </button> -->
-                    <!-- <ul class="dropdown-menu" style="background-color: rgb(218, 218, 218);" -->
-                        <!-- aria-labelledby="dropdownMenuButton1"> -->
-                        {% csrf_token %}
-                        <!-- <li> -->
-                            <button class="dropdown-item" style="cursor: pointer;" type="submit">Logout</button>
-                        <!-- </li> -->
-                    <!-- </ul> -->
-                    <input type="hidden" value="{{request.path}}" name="currentPath" id="currentPath">
-                </div>
+                    {% csrf_token %}
+                        <button class="btn btn-success mr-2 mb-2" style="cursor: pointer;" type="submit">Logout</button>
+                <input type="hidden" value="{{request.path}}" name="currentPath" id="currentPath">
+            </div>
             </form>
 
 
@@ -200,14 +194,9 @@
                                 placeholder="Choose a unique username">
                         </div>
                         <div class="form-group">
-                            <label for="fname">First Name</label>
-                            <input type="text" class="form-control" id="fname" name="fname"
+                            <label for="fname">Name</label>
+                            <input type="text" class="form-control" id="name" name="fname"
                                 placeholder="Enter Your First Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="lname">Last Name</label>
-                            <input type="text" class="form-control" id="lname" name="lname"
-                                placeholder="Enter Your Last Name">
                         </div>
                         <div class="form-group">
                             <label for="email">Email address</label>

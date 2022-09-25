@@ -1,0 +1,343 @@
+{% extends 'index.html' %}
+
+{% block title %}Myprofile{% endblock %}
+
+{% block css1 %}
+{% endblock %}
+
+
+{% block body %}
+<p class="text-center" style="font-size:5rem; font-weight: 500;">Profile</p>
+<!-- <p class="text-center" style="font-size:2rem; font-weight: 300;">Track all your Interactions.</p>s -->
+<div class="container-fluid my-5 ">
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+
+
+
+
+            {% if user_type == 3 %}
+            <h3> investor</h3>
+            {% endif %}
+
+
+            {% comment %}
+            <!--for investor--> {% endcomment %}
+            {% if user_type == 3 %}
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center">
+                            <img src="https://i.ibb.co/6HThmG9/user.png" alt="avatar" class="rounded-circle img-fluid"
+                                style="width: 150px;">
+                            <h5 class="my-3">{{request.user.username}}</h5>
+                            <p class="text-muted mb-1">Investor</p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Full Name</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{request.user.username}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <p class="mb-0">Email</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class="text-muted mb-0">{{request.user.email}}</p>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row px-3">
+                        <form method="post" action="/profile/">{% csrf_token %}
+                            {% if user.is_authenticated %}
+                            <fieldset>
+                                {% else %}
+                                <fieldset disabled>
+                                    {% endif %}
+                                    <!-- <form class="form-row"> -->
+                                    <input type="hidden" name="user_type" value="{{user_type}}">
+                                    <div class="form-group col-md-6 mt-3">
+                                        <label for="phone">Phone</label>
+                                        <input type="tel" class="form-control" id="phone" name="phone"
+                                            value="{{user_object.phone}}" placeholder="Enter your phone number"
+                                            required>
+                                    </div>
+                                    <div class="form-group col-md-6 mt-3">
+                                        <label for="linkedln">linkedln</label>
+                                        <input type="text" class="form-control" id="linkedln" name="linkedln"
+                                            value="{{user_object.linkedln}}" placeholder="linkedln" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Enter the details</label>
+                                        <textarea class="form-control" name="description" id="description" rows="10" required>{{user_object.description}}</textarea>
+                                    </div>
+                                </fieldset>
+                                <button type="submit" class="btn btn-success my-3">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+</section>
+</div>
+{% endif %}
+
+
+
+
+
+{% comment %} for student {% endcomment %}
+
+
+
+{% if user_type == 1 %}
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <img src="https://i.ibb.co/6HThmG9/user.png" alt="avatar" class="rounded-circle img-fluid"
+                    style="width: 150px;">
+                <h5 class="my-3">{{request.user.username}}</h5>
+                <p class="text-muted mb-1">STUDENT</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Full Name</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{request.user.username}}</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Email</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{request.user.email}}</p>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div class="row px-3">
+            <form method="post" action="/profile/">{% csrf_token %}
+                {% if user.is_authenticated %}
+                <fieldset>
+                    {% else %}
+                    <fieldset disabled>
+                        {% endif %}
+                        <input type="hidden" name="user_type" value="{{user_type}}">
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="age">Age</label>
+                            <input type="text" class="form-control" id="age" name="age" placeholder="Enter your age "
+                                value="{{user_object.age}}" required>
+                        </div>
+
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="phone">Phone</label>
+                            <input type="tel" class="form-control" id="phone" name="phone"
+                                placeholder="Enter your phone number" value="{{user_object.phone}}" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="area">area</label>
+                            <input type="text" class="form-control" id="area" name="area" placeholder="area"
+                                value="{{user_object.area}}" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="state">state</label>
+                            <input type="text" class="form-control" id="state" name="state" placeholder="state"
+                                value="{{user_object.state}}" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="college">college</label>
+                            <input type="text" class="form-control" id="college" name="college" placeholder="college"
+                                value="{{user_object.college}}" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="course">course</label>
+                            <input type="text" class="form-control" id="course" name="course" placeholder="course"
+                                value="{{user_object.course}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Enter the details</label>
+                            <textarea class="form-control" name="description" id="description"
+                             rows="10" required>{{user_object.description}}</textarea>
+                        </div>
+                    </fieldset>
+                    <button type="submit" class="btn btn-success my-3">Update</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+</section>
+</div>
+{% endif %}
+
+
+{% comment %} for start up {% endcomment %}
+{% if user_type == 2 %}
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                <img src="https://i.ibb.co/6HThmG9/user.png" alt="avatar" class="rounded-circle img-fluid"
+                    style="width: 150px;">
+                <h5 class="my-3">{{request.user.username}}</h5>
+                <p class="text-muted mb-1">STARTUP</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Full Name</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{request.user.username}}</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <p class="mb-0">Email</p>
+                    </div>
+                    <div class="col-sm-9">
+                        <p class="text-muted mb-0">{{request.user.email}}</p>
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div class="row px-3">
+            <form method="post" action="/profile/">{% csrf_token %}
+                {% if user.is_authenticated %}
+
+                <fieldset>
+                    {% else %}
+                    <fieldset disabled>
+                        {% endif %}
+                        <input type="hidden" name="user_type" value="{{user_type}}">
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="tagname">tagname</label>
+                            <input type="text" class="form-control" id="tagname" name="tagname"
+                                placeholder="Enter your tagname " value="{{user_object.tagname}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="about">Enter the about you</label>
+                            <textarea class="form-control" name="about" id="about
+                                rows="4">{{user_object.about}}</textarea>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="comapany_type">comapany_type</label>
+                            <input type="text" class="form-control" id="comapany_type" name="comapany_type"
+                                value="{{user_object.comapany_type}}" placeholder="comapany_type" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="market_cap">market_cap</label>
+                            <input type="text" class="form-control" id="market_cap" name="market_cap"
+                                value="{{user_object.market_cap}}" placeholder="market_cap" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="netsales">netsales</label>
+                            <input type="text" class="form-control" id="netsales" name="netsales"
+                                value="{{user_object.netsales}}" placeholder="netsales" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="revenue">revenue</label>
+                            <input type="text" class="form-control" id="revenue" name="revenue"
+                                value="{{user_object.revenue}}" placeholder="revenue" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="profit_after_tax">profit_after_tax</label>
+                            <input type="text" class="form-control" id="profit_after_tax"
+                                value="{{user_object.profit_after_tax}}" name="profit_after_tax"
+                                placeholder="profit_after_tax" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="profit_growth">profit_growth</label>
+                            <input type="text" class="form-control" id="profit_growth"
+                                value="{{user_object.profit_growth}}" name="profit_growth" placeholder="profit_growth"
+                                required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="company_mission">company_mission</label>
+                            <input type="text" class="form-control" id="company_mission"
+                                value="{{user_object.company_mission}}" name="company_mission"
+                                placeholder="company_mission" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="fund_to_be_raised">fund_to_be_raised</label>
+                            <input type="text" class="form-control" id="fund_to_be_raised" name="fund_to_be_raised"
+                                value="{{user_object.fund_to_be_raised}}" placeholder="fund_to_be_raised" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="hiring_details">hiring_details</label>
+                            <input type="text" class="form-control" id="hiring_details" name="hiring_details"
+                                value="{{user_object.hiring_details}}" placeholder="hiring_details" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="job_vacancy">job_vacancy</label>
+                            <input type="text" class="form-control" id="job_vacancy" name="job_vacancy"
+                                value="{{user_object.job_vacancy}}" placeholder="job_vacancy" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="website_link">website_link</label>
+                            <input type="text" class="form-control" id="website_link" name="website_link"
+                                value="{{user_object.website_link}}" placeholder="website_link" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="linkedin_link">linkedin_link</label>
+
+
+                            <input type="text" class="form-control" id="linkedin_link" name="linkedin_link"
+                                value="{{user_object.linkedin_link}}" placeholder="linkedin_link" required>
+                        </div>
+                        <div class="form-group col-md-6 mt-3">
+                            <label for="twitter_link">twitter_link</label>
+                            <input type="text" class="form-control" id="twitter_link" name="twitter_link"
+                                value="{{user_object.twitter_link}}" placeholder="twitter_link" required>
+                        </div>
+                        <button type="submit" class="btn btn-success my-3">Update</button>
+                    </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</section>
+</div>
+{% endif %}
+
+{% endblock %}
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
+{% endblock %}

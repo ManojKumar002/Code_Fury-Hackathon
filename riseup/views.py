@@ -18,7 +18,12 @@ import json
 def home(request):
     params={}
     startup_details=Startup.objects.all()
-    params['startup_details']=startup_details
+    startup_list=[]
+    #?selects the only comapanies whose all details are filled
+    for i in startup_details:
+        if(i.completion_status==1):
+            startup_list.append(i)
+    params['startup_details']=startup_list
     return render(request,"home.html",params)
 
 
@@ -27,8 +32,7 @@ def signup(request):
     flag=0
     if(request.method=='POST'):
         username=request.POST['username']
-        fname=request.POST['fname']
-        lname=request.POST['lname']
+        name=request.POST['fname']
         email=request.POST['email']
         pass1=request.POST['pass1']
         pass2=request.POST['pass2']
@@ -66,21 +70,20 @@ def signup(request):
 
         choice = int(choice)
         if(choice==1):
-            signup = Student(name=fname + lname,email=email,user_type=1,username=username )
+            signup = Student(name=name,email=email,user_type=1,username=username )
             signup.save()
 
         if(choice==2):
-            signup = Startup(name=fname + lname,email=email,user_type=2,username=username )
+            signup = Startup(name=name,email=email,user_type=2,username=username )
             signup.save()
 
         if(choice==3):
-            signup = Investor(name=fname + lname,email=email,user_type=3,username=username )
+            signup = Investor(name=name,email=email,user_type=3,username=username )
             signup.save()
 
 
         newUser=User.objects.create_user(username,email,pass1)
-        newUser.first_name=fname
-        newUser.last_name=lname
+        newUser.first_name=name
         newUser.save()
         messages.success(request, 'Successfully created account')
         login(request,newUser)
@@ -95,7 +98,6 @@ def userLogin(request):
         userpass=request.POST['loginpass']
         currentPathlogIn=request.POST['currentPathlogIn']
         choice=request.POST['Choice']
-        print(choice)
 
         user=authenticate(request,username=username,password=userpass)
 
@@ -160,6 +162,7 @@ def userLogout(request):
     messages.info(request, 'Successfully Logged out')
     return redirect(currentPath)
 
+
 def startup(request,myid):
     params={}
     startup_object=Startup.objects.get(startup_id=myid)
@@ -216,3 +219,284 @@ def tracker(request):
     print(params)
     
     return render(request,"tracker.html",params)
+
+
+
+
+def profile(request):
+    params={}
+
+    if request.method=='POST':
+        user_type=request.POST.get("user_type")
+        flag=0
+        # for investor 
+        if(user_type=='3'):
+            name = request.user.username     
+            phone=request.POST['phone']
+            linkedln=request.POST['linkedln']
+            description=request.POST['description']
+
+            #validation
+            if(len(description)==0):
+                messages.warning(request,"Please fill all sections")
+                flag=1
+
+            #saving the data
+            if(flag==0):
+                upload = Investor.objects.get(username = name)
+                upload.phone = phone
+                upload.linkedln = linkedln
+                upload.description = description
+                upload.completion_status=1
+                upload.save()
+                messages.success(request,"Profile updated sucessfully")
+
+
+        # for student
+        elif (user_type=='1'):
+                details = Student.objects.all()
+                age = request.POST['age']
+                area = request.POST['area']
+                state = request.POST['state']
+                phone = request.POST['phone']
+                college = request.POST['college']
+                course = request.POST['course']
+                description = request.POST['description']
+                name = request.user.username
+                
+                if(len(description)==0):
+                    messages.warning(request,"Please fill all sections")
+                    flag=1
+                
+                if(flag==0):
+                    upload = Student.objects.get(username = name)
+                    upload.age = age
+                    upload.area = area
+                    upload.state = state
+                    upload.phone = phone
+                    upload.college = college
+                    upload.course = course
+                    upload.description = description
+                    upload.completion_status=1
+                    upload.save()
+                    messages.success(request,"Profile updated sucessfully")
+                
+               
+        # startup 
+        elif (user_type=='2'):
+            tagname = request.POST['tagname']
+            about = request.POST['about']
+            comapany_type = request.POST['comapany_type']
+            market_cap = request.POST['market_cap']
+            netsales = request.POST['netsales']
+            revenue = request.POST['revenue']
+            profit_after_tax = request.POST['profit_after_tax']
+            tagprofit_growthname = request.POST['profit_growth']
+            company_mission = request.POST['company_mission']
+            fund_to_be_raised = request.POST['fund_to_be_raised']
+            hiring_details = request.POST['hiring_details']
+            job_vacancy = request.POST['job_vacancy']
+            website_link = request.POST['website_link']
+            linkedin_link = request.POST['linkedin_link']
+            twitter_link = request.POST['twitter_link']
+            name = request.user.username
+
+
+            if(len(about)==0):
+                messages.warning(request,"Please fill all sections")
+                flag=1
+                
+
+            if(flag==0):
+                upload = Startup.objects.get(username = name)
+                upload.tagname = tagname
+                upload.about = about
+                upload.comapany_type = comapany_type
+                upload.market_cap = market_cap
+                upload.netsales = netsales
+                upload.revenue = revenue
+                upload.profit_after_tax = profit_after_tax
+                upload.tagprofit_growthname = tagprofit_growthname
+                upload.company_mission = company_mission
+                upload.fund_to_be_raised = fund_to_be_raised
+                upload.hiring_details = hiring_details
+                upload.job_vacancy = job_vacancy
+                upload.website_link = website_link
+                upload.linkedin_link = linkedin_link
+                upload.twitter_link = twitter_link
+                upload.completion_status=1
+                upload.save()
+                messages.success(request,"Profile updated sucessfully")
+
+
+
+
+    username=request.user.username
+    user_type=0
+    #fetching the usertype
+    if(len(Student.objects.filter(username=username))>0):
+        user_type=1
+    elif(len(Startup.objects.filter(username=username))>0):
+        user_type=2
+    elif(len(Investor.objects.filter(username=username))>0):
+        user_type=3
+
+
+    #sending the current loggedin user to frontend
+    if(user_type==1):
+        details = Student.objects.all()
+        for i in range(len(details)):
+            if(details[i].username==request.user.username):
+                params["user_object"]= details[i]
+                break
+
+    elif(user_type==2):
+        details = Startup.objects.all()
+        for i in range(len(details)):
+            if(details[i].username==request.user.username):
+                params["user_object"]= details[i]
+                break
+    
+    elif(user_type==3):
+        details = Investor.objects.all()
+        for i in range(len(details)):
+            if(details[i].username==request.user.username):
+                params["user_object"]= details[i]
+                break
+    
+    return render(request,"profile.html",params)
+
+
+
+
+def tracker(request):
+        params={}
+        if request.user.is_authenticated:
+
+
+            if request.method == "POST":
+                status =0
+                table_id = 0
+                reject = request.POST.get('reject', '')
+                approve = request.POST.get('approve', '')
+                if reject == "2" and approve == "":
+                    table_id = request.POST.get('table_id', '')
+                    status = 2
+                elif reject == "" and approve == "1":
+                    table_id = request.POST.get('table_id2', '')
+                    status = 1
+                ty = Request.objects.get(table_id = table_id)
+                ty.status = status 
+                ty.save()
+
+
+            user_typ = 0
+            data =0
+            reqs_list=[]
+            reqi_list=[]
+            s_list = []
+            i_list = []
+            c_list = []
+            inc_list = []
+            if(len(Student.objects.filter(username=request.user))>0):
+                user_typ=1
+            elif(len(Startup.objects.filter(username=request.user))>0):
+                user_typ=2
+            elif(len(Investor.objects.filter(username=request.user))>0):
+                user_typ=3
+
+            if user_typ == 2:
+                startup_name = Startup.objects.get(username= request.user)
+                req =  Request.objects.filter(startup_name=startup_name)  
+                
+                if len(req) > 0:
+                    for i in req:
+                        
+                        if int(i.user_type) == 1:
+                            req_t = "Applying for Job" 
+                            if i.status ==1:
+                                c_list.append([i.user_name,"Student",req_t,i.description,i.table_id])
+                            elif i.status ==2:
+                                inc_list.append([i.user_name,"Student",req_t,i.description,i.table_id])
+                            else:
+                                s_list.append([i.user_name,"Student",req_t,i.description,i.table_id])
+
+                            params['c_list'] = c_list
+                            params['inc_list'] = inc_list
+                            params['s_list'] = s_list
+                            params['data']=1
+                        
+                        if int(i.user_type) == 3:
+                            req_t = "Investing" 
+                            if i.status == 1:
+                                c_list.append([i.user_name,"Investor",req_t,i.description,i.table_id])
+                            elif i.status ==2:
+                                inc_list.append([i.user_name,"Investor",req_t,i.description,i.table_id])
+                            else:
+                                i_list.append([i.user_name,"Investor",req_t,i.description,i.table_id])
+
+                            params['c_list'] = c_list
+                            params['inc_list'] = inc_list
+                            params['i_list'] = i_list
+                            params['data']=1
+                else:
+                     messages.warning(request, 'No request sent')
+                     
+
+            elif user_typ== 1:
+                req =  Request.objects.filter(user_name=request.user)     
+                if len(req) > 0:
+                    for i in req:
+                        user_t = "Student"
+                        req_t = "Applying for Job"  
+                        if i.status ==1:
+                            c_list.append([i.user_name,user_t,i.startup_name,req_t,i.description,i.table_id])
+                        elif i.status ==2:
+                            inc_list.append([i.user_name,user_t,i.startup_name,req_t,i.description,i.table_id])
+                        else:
+                            reqs_list.append([i.user_name,user_t,i.startup_name,req_t,i.description,i.table_id])
+                        params['c_list'] = c_list
+                        params['inc_list'] = inc_list
+                        params['reqs_list'] = reqs_list 
+                        params['data']=1
+    
+                else:
+                    messages.warning(request, 'No request sent')
+
+            elif user_typ== 3:
+                req =  Request.objects.filter(user_name=request.user)     
+                if len(req) > 0:
+                    for i in req:
+                        user_t = "Investor"
+                        req_t = "Investing"    
+                        if i.status ==1:
+                            c_list.append([i.user_name,user_t,i.startup_name,req_t,i.description,i.table_id])
+                        elif i.status ==2:
+                            inc_list.append([i.user_name,"Investor",i.startup_name,req_t,i.description,i.table_id])
+                        else:
+                            reqi_list.append([i.user_name,user_t,i.startup_name,req_t,i.description,i.table_id])
+
+                        params['c_list'] = c_list
+                        params['inc_list'] = inc_list
+                        params['reqi_list'] = reqi_list 
+                        params['data']=1
+                else:
+                    messages.warning(request, 'No request sent')
+
+            # if request.method == "POST":
+            #     status =0
+            #     table_id = 0
+            #     reject = request.POST.get('reject', '')
+            #     approve = request.POST.get('approve', '')
+            #     if reject == "2" and approve == "":
+            #         table_id = request.POST.get('table_id', '')
+            #         status = 2
+            #     elif reject == "" and approve == "1":
+            #         table_id = request.POST.get('table_id2', '')
+            #         status = 1
+            #     ty = Request.objects.get(table_id = table_id)
+            #     ty.status = status 
+            #     ty.save()
+                
+        
+        return render(request,"tracker.html",params)
